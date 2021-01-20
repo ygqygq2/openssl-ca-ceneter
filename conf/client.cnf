@@ -1,0 +1,22 @@
+####################################
+[ req ]
+default_keyfile = /etc/pki/tls/private/client.key
+default_md = sha1
+prompt = no
+distinguished_name = ca_distinguished_name
+x509_extensions = ca_extensions
+
+[ ca_distinguished_name ]
+countryName = CN
+stateOrProvinceName = Guangdong
+localityName = Guangzhou
+
+organizationName = myself
+organizationalUnitName = my
+commonName = my_CA
+emailAddress = ca_admin@my.cn
+
+[ ca_extensions ]
+basicConstraints = CA:true
+########################################
+
