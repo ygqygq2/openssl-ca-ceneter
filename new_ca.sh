@@ -2,7 +2,7 @@
 # 生成新的CA证书
 
 # 设置证书名
-ca_name="my"
+ca_name="my_CA"
 
 # get pwd
 cd `dirname $0`

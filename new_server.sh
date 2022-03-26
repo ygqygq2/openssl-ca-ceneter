@@ -4,7 +4,8 @@
 # 设置ca证书名
 ca_name="my_CA"
 # 设置签发域名
-domain_name=''
+domain_name=($*)
+domain_name=$(echo ${domain_name[*]}|sed 's@ @/CN=@g')
 
 # get pwd
 cd `dirname $0`
@@ -15,6 +16,7 @@ cert_dir=${real_path}/certs
 csr_dir=${real_path}/csrs
 conf_dir=${real_path}/conf
 
+[ -z "$1" ] && echo "脚本请接域名为参数" && exit 1
 [ ! -d ${key_dir} ] && mkdir -p ${key_dir}/
 [ ! -d ${cert_dir} ] && mkdir -p ${cert_dir}/
 [ ! -d ${csr_dir} ] && mkdir -p ${csr_dir}/
@@ -24,7 +26,7 @@ conf_dir=${real_path}/conf
 #openssl genrsa -out ${key_dir}/server.key 2048 -utf8
 #产生站点证书请求CSR文件,此文件可下载,交给第三方CA(比如CFCA,VerisginCA),颁发相关证书（提供服务的服务器上生成）
 openssl req -newkey rsa:4096 -nodes -sha256 -keyout ${key_dir}/server.key -out ${csr_dir}/server.csr \
--subj "/C=CN/ST=Guangdong/L=ZhuHai/O=my/OU=devop/CN=${domain_name}/emailAddress=ca_admin@my.cn" \
+-subj "/C=CN/ST=Guangdong/L=ZhuHai/O=my/OU=devops/CN=${domain_name}/emailAddress=ca_admin@my.cn" \
 -utf8
 #openssl req -new -key ${key_dir}/server.key -out ${csr_dir}/server.csr -config "${conf_dir}/server_utf8.cnf" -utf8
 
