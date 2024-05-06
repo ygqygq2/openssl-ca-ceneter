@@ -37,7 +37,7 @@ openssl req -new -key ${key_dir}/${ca_name}.key -out ${cert_dir}/${ca_name}.csr 
 # service will never see the light of an unencrypted Internet see the cheap and lazy remark.
 # So self sign our root key.
 #用自己的私钥对CSR文件进行签名-----即为自签名证书,并生成国际通用的x509格式证书,有效期为10年
-openssl x509 -req -days 3650 -in ${cert_dir}/${ca_name}.csr -signkey ${key_dir}/${ca_name}.key -out ${cert_dir}/${ca_name}.crt 
+openssl x509 -req -days 7300 -in ${cert_dir}/${ca_name}.csr -signkey ${key_dir}/${ca_name}.key -out ${cert_dir}/${ca_name}.crt 
 
 # Setup the first serial number for our keys... can be any 4 digit hex string... not sure if there are broader bounds but everything I've seen uses 4 digits.
 echo AAAA > ${real_path}/serial
