@@ -18,10 +18,24 @@ CONF_DIR=${real_path}/conf
 [ ! -d ${CONF_DIR} ] && mkdir -p ${CONF_DIR}/
 
 function create_subj_info() {
-    local domain_name
-    domain_name=($*)
-    domain_name=$(echo ${domain_name[*]}|sed 's@ @/CN=@g')
-    SUBJ="/C=CN/ST=Guangdong/L=ZhuHai/O=my/OU=devops/CN=${domain_name}/emailAddress=${CA_EMAIL}"
+    local domain_name=()
+    local email_name="$CA_EMAIL" # 默认使用环境变量CA_EMAIL作为邮件名
+
+    # 遍历所有参数
+    for arg in "$@"; do
+        if [[ "$arg" == *@* ]]; then
+            email_name="$arg" # 如果参数包含@，则认为是邮件名
+        else
+            domain_name+=("$arg") # 否则，认为是域名
+        fi
+    done
+
+    # 将域名数组转换为以"/CN="分隔的字符串
+    local domain_str=$(IFS=/CN=; echo "${domain_name[*]}")
+    domain_str="/CN=$domain_str" # 添加前缀以符合SUBJ格式
+
+    # 构造SUBJ字符串
+    SUBJ="/C=CN/ST=Guangdong/L=ZhuHai/O=my/OU=devops${domain_str}/emailAddress=${email_name}"
 }
 
 function create_v3_req () {
@@ -49,4 +63,18 @@ EOF
             let dns_index++
         fi
     done
+}
+
+function create_v3_email () {
+    local email_name
+    email=$1
+ 
+    cat > v3.ext <<EOF
+[ v3_email ]
+basicConstraints = critical,CA:FALSE
+subjectKeyIdentifier = hash
+keyUsage = nonRepudiation,digitalSignature,keyEncipherment,dataEncipherment
+extendedKeyUsage = critical,emailProtection
+subjectAltName = critical,email:${email_name}
+EOF
 }

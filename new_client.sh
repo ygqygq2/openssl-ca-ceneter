@@ -33,7 +33,7 @@ openssl ca -in ${user_dir}/client.csr -cert ${CERT_DIR}/${CA_NAME}.crt -keyfile 
 #安装完成后,可点击"工具"-->"Internet选项"-->"内容"-->"证书",查看是否已存在刚刚安装的证书
 openssl pkcs12 -export -clcerts -in ${user_dir}/client.crt -inkey ${user_dir}/client.key -out ${user_dir}/client.p12 -passin pass:1234 -password pass:1234
 
-rsync -avz ${user_dir}/client.key ${user_dir}/${user_name}/${user_name}_${TODAY}.key
-rsync -avz ${user_dir}/client.csr ${user_dir}/${user_name}/${user_name}_${TODAY}.csr
-rsync -avz ${user_dir}/client.crt ${user_dir}/${user_name}/${user_name}_${TODAY}.crt
-rsync -avz ${user_dir}/client.p12 ${user_dir}/${user_name}/${user_name}_${TODAY}.p12
+rsync -avz ${user_dir}/client.key ${user_dir}/${user_name}/${user_name}-${TODAY}.key
+rsync -avz ${user_dir}/client.csr ${user_dir}/${user_name}/${user_name}-${TODAY}.csr
+rsync -avz ${user_dir}/client.crt ${user_dir}/${user_name}/${user_name}-${TODAY}.crt
+rsync -avz ${user_dir}/client.p12 ${user_dir}/${user_name}/${user_name}-${TODAY}.p12

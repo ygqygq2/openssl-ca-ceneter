@@ -34,8 +34,9 @@ cat /dev/null > ${real_path}/index.txt
 
 chmod 0600 ${KEY_DIR}/${CA_NAME}.key
 [ ! -f ${real_path}/index.txt.attr ] && cat /dev/null > ${real_path}/index.txt.attr
+[ ! -f ${CERT_DIR}/${CA_NAME}.srl ] && echo 01 > ${CERT_DIR}/${CA_NAME}.srl
 
 # backup
-rsync -avz ${KEY_DIR}/${CA_NAME}.key ${KEY_DIR}/${TODAY}_${CA_NAME}.key
-rsync -avz ${CERT_DIR}/${CA_NAME}.crt ${CERT_DIR}/${TODAY}_${CA_NAME}.crt
+rsync -avz ${KEY_DIR}/${CA_NAME}.key ${KEY_DIR}/${TODAY}-${CA_NAME}.key
+rsync -avz ${CERT_DIR}/${CA_NAME}.crt ${CERT_DIR}/${TODAY}-${CA_NAME}.crt
 
