@@ -14,7 +14,7 @@ exit 0
 
 # Generate the key.
 # 生成私钥
-openssl genrsa -out ${KEY_DIR}/${CA_NAME}.key 4096 -utf8
+openssl genrsa -out ${KEY_DIR}/${CA_NAME}.key 4096
 
 create_subj_info ${CA_NAME}
 openssl req -new -x509 -days ${CA_DAYS} -extensions v3_ca \

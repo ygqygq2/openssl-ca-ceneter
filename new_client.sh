@@ -19,7 +19,7 @@ user_name=$1
 mkdir -p ${user_dir}/${user_name}/
 
 # 用DES3的算法产生公私钥对,并设定密钥长度为4096位
-openssl genrsa -des3 -out ${user_dir}/client.key -passout pass:1234 4096 -utf8
+openssl genrsa -des3 -out ${user_dir}/client.key -passout pass:1234 4096
 
 create_subj_info $user_name
 openssl req -new -key ${user_dir}/client.key -out ${user_dir}/client.csr -passin pass:1234 \
