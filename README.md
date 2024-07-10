@@ -8,7 +8,10 @@
 * 使用 csr 签发证书
 
 ## 使用
-备份 `/etc/pki/tls`，然后把整个仓库目录替换成 `/etc/pki/tls` 就可以使用。
+> * rhel 系目录为 `/etc/pki/tls`；
+> * ubuntu 目录为 `/etc/ssl`；
+
+备份 `/etc/pki/tls`，然后把整个仓库脚本和 openssl.cnf 放进去就可以使用了。
 
 ```
 [root@ygqygq2 tls]# ls
