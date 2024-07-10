@@ -4,6 +4,7 @@
 * 生成 CA 证书
 * 生成 server 证书
 * 生成 client 证书
+* 生成 email 签名证书
 * 验证证书
 * 使用 csr 签发证书
 
@@ -15,8 +16,8 @@
 
 ```
 [root@ygqygq2 tls]# ls
-autoanswer.exp             ca_revoke_certification.sh  ca_verify.sh  certs  csrs       index.txt.attr      index.txt.old  new_ca.sh      new_server.sh  private  serial.old
-ca_issue_certification.sh  ca_verify_certification.sh  cert.pem      conf   index.txt  index.txt.attr.old  misc           new_client.sh  openssl.cnf    serial   verify.sh
+autoanswer.exp  ca_issue_certification.sh   ca_verify_certification.sh  conf       new_ca.sh      new_email.sh   openssl.cnf  serial
+base.sh         ca_revoke_certification.sh  ca_verify.sh                index.txt  new_client.sh  new_server.sh  README.md    verify.sh
 [root@master1 tls]# pwd
 /etc/pki/tls
 [root@ygqygq2 tls]# 
