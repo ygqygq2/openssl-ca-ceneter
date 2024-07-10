@@ -34,53 +34,26 @@ tsa_policy3 = 1.2.3.4.5.7
 
 ####################################################################
 [ ca ]
-default_ca	= CA_my		# The default ca section
-
-###################################################################
-
-
-[ CA_my ]
-dir = /etc/pki/tls/
-crl_dir = $dir/crl
-database = $dir/index.txt
-
-unique_subject = no
-serial = $dir/serial
-private_key = $dir/private/my_CA.key
-certificate = $dir/certs/my_CA.crt
-
-default_days = 3650
-default_crl_days= 30 
-default_md = sha1
-new_certs_dir = $dir/certs
-x509_extensions = usr_cert
-
-crl = $dir/crl.pem
-
-preserve = no
-policy = policy_match
-
+default_ca	= CA_default		# The default ca section
 
 ####################################################################
 [ CA_default ]
 
-dir		= /etc/pki/CA		# Where everything is kept
+dir		= .		        # Where everything is kept
 certs		= $dir/certs		# Where the issued certs are kept
 crl_dir		= $dir/crl		# Where the issued crl are kept
 database	= $dir/index.txt	# database index file.
-#unique_subject	= no			# Set to 'no' to allow creation of
+unique_subject	= no			# Set to 'no' to allow creation of
 					# several ctificates with same subject.
-new_certs_dir	= $dir/newcerts		# default place for new certs.
+new_certs_dir	= $dir/certs		# default place for new certs.
 
-certificate	= $dir/cacert.pem 	# The CA certificate
+certificate	= $dir/certs/my_CA.crt 	# The CA certificate
 serial		= $dir/serial 		# The current serial number
 crlnumber	= $dir/crlnumber	# the current crl number
 					# must be commented out to leave a V1 CRL
 crl		= $dir/crl.pem 		# The current CRL
-private_key	= $dir/private/cakey.pem  # The private key
+private_key	= $dir/private/my_CA.key # The private key
 RANDFILE	= $dir/private/.rand	# private random number file
-
-x509_extensions	= usr_cert		# The extentions to add to the cert
 
 # Comment out the following two lines for the "traditional"
 # (and highly broken) format.
@@ -88,7 +61,7 @@ name_opt 	= ca_default		# Subject Name options
 cert_opt 	= ca_default		# Certificate field options
 
 # Extension copying option: use with caution.
-# copy_extensions = copy
+copy_extensions = copy
 
 # Extensions to add to a CRL. Note: Netscape communicator chokes on V2 CRLs
 # so this is commented out by default to leave a V1 CRL.
@@ -97,7 +70,7 @@ cert_opt 	= ca_default		# Certificate field options
 
 default_days	= 365			# how long to certify for
 default_crl_days= 30			# how long before next CRL
-default_md	= sha256		# use SHA-256 by default
+default_md	= sha512		# use SHA-512 by default
 preserve	= no			# keep passed DN ordering
 
 # A few difference way of specifying how similar the request should look
@@ -107,9 +80,9 @@ policy		= policy_match
 
 # For the CA policy
 [ policy_match ]
-countryName		= optional
-stateOrProvinceName	= optional
-organizationName	= optional
+countryName		= match
+stateOrProvinceName	= match
+organizationName	= match
 organizationalUnitName	= optional
 commonName		= supplied
 emailAddress		= optional
@@ -128,12 +101,11 @@ emailAddress		= optional
 
 ####################################################################
 [ req ]
-default_bits		= 4096
-default_md		= sha256
+default_bits		= 2048
+default_md		= sha512
 default_keyfile 	= privkey.pem
 distinguished_name	= req_distinguished_name
 attributes		= req_attributes
-x509_extensions	= v3_ca	# The extentions to add to the self signed cert
 
 # Passwords for private keys if not present they will be prompted for
 # input_password = secret
@@ -149,7 +121,7 @@ x509_extensions	= v3_ca	# The extentions to add to the self signed cert
 string_mask = utf8only
 utf8 = yes
 
-# req_extensions = v3_req # The extensions to add to a certificate request
+req_extensions = v3_req # The extensions to add to a certificate request
 
 [ req_distinguished_name ]
 countryName			= Country Name (2 letter code)
@@ -164,7 +136,7 @@ localityName			= Locality Name (eg, city)
 localityName_default		= ZhuHai
 
 0.organizationName		= Organization Name (eg, company)
-0.organizationName_default	= Keji
+0.organizationName_default	= MyCompany
 
 # we can do this but it is not needed normally :-)
 #1.organizationName		= Second Organization Name (eg, company)
@@ -173,39 +145,9 @@ localityName_default		= ZhuHai
 organizationalUnitName		= Organizational Unit Name (eg, section)
 #organizationalUnitName_default	=
 
-0.commonName			= Common Name (eg, your name or your server\'s hostname)
-0.commonName_max			= 64
-1.commonName			= Common Name (eg, your name or your server\'s hostname)
-1.commonName_max			= 64
-2.commonName                    = Common Name (eg, your name or your server\'s hostname)
-2.commonName_max                        = 64
-3.commonName                    = Common Name (eg, your name or your server\'s hostname)
-3.commonName_max                        = 64
-4.commonName                    = Common Name (eg, your name or your server\'s hostname)
-4.commonName_max                        = 64
-5.commonName                    = Common Name (eg, your name or your server\'s hostname)
-5.commonName_max                        = 64
-6.commonName                    = Common Name (eg, your name or your server\'s hostname)
-6.commonName_max                        = 64
-7.commonName                    = Common Name (eg, your name or your server\'s hostname)
-7.commonName_max                        = 64
-8.commonName                    = Common Name (eg, your name or your server\'s hostname)
-8.commonName_max                        = 64
-9.commonName                    = Common Name (eg, your name or your server\'s hostname)
-9.commonName_max                        = 64
-10.commonName                    = Common Name (eg, your name or your server\'s hostname)
-10.commonName_max                        = 64
-11.commonName                    = Common Name (eg, your name or your server\'s hostname)
-11.commonName_max                        = 64
-12.commonName                    = Common Name (eg, your name or your server\'s hostname)
-12.commonName_max                        = 64
-13.commonName                    = Common Name (eg, your name or your server\'s hostname)
-13.commonName_max                        = 64
-14.commonName                    = Common Name (eg, your name or your server\'s hostname)
-14.commonName_max                        = 64
-15.commonName                    = Common Name (eg, your name or your server\'s hostname)
-15.commonName_max                        = 64
-
+commonName			= Common Name (eg, your name or your server\'s hostname)
+commonName_max			= 64
+# commonName_default              = ${ENV::SUBJECT_ALT_NAME}
 
 emailAddress			= Email Address
 emailAddress_max		= 64
@@ -214,91 +156,25 @@ emailAddress_max		= 64
 
 [ req_attributes ]
 challengePassword		= A challenge password
-challengePassword_min		= 4
-challengePassword_max		= 20
 
 unstructuredName		= An optional company name
 
-[ usr_cert ]
-
-# These extensions are added when 'ca' signs a request.
-
-# This goes against PKIX guidelines but some CAs do it and some software
-# requires this to avoid interpreting an end user certificate as a CA.
-
-basicConstraints=CA:FALSE
-
-# Here are some examples of the usage of nsCertType. If it is omitted
-# the certificate can be used for anything *except* object signing.
-
-# This is OK for an SSL server.
-# nsCertType			= server
-
-# For an object signing certificate this would be used.
-# nsCertType = objsign
-
-# For normal client use this is typical
-# nsCertType = client, email
-
-# and for everything including object signing:
-# nsCertType = client, email, objsign
-
-# This is typical in keyUsage for a client certificate.
-# keyUsage = nonRepudiation, digitalSignature, keyEncipherment
-
-# This will be displayed in Netscape's comment listbox.
-nsComment			= "OpenSSL Generated Certificate"
-
-# PKIX recommendations harmless if included in all certificates.
-subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
-
-# This stuff is for subjectAltName and issuerAltname.
-# Import the email address.
-# subjectAltName=email:copy
-# An alternative to produce certificates that aren't
-# deprecated according to PKIX.
-# subjectAltName=email:move
-
-# Copy subject details
-# issuerAltName=issuer:copy
-
-#nsCaRevocationUrl		= http://www.domain.dom/ca-crl.pem
-#nsBaseUrl
-#nsRevocationUrl
-#nsRenewalUrl
-#nsCaPolicyUrl
-#nsSslServerName
-
 [ v3_req ]
-
-# Extensions to add to a certificate request
-
-basicConstraints = CA:FALSE
-keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+basicConstraints = critical,CA:FALSE
+subjectKeyIdentifier = hash
+# 生成 csr 时得注释
+# authorityKeyIdentifier = keyid:always,issuer:always
+keyUsage = nonRepudiation, digitalSignature,keyEncipherment,dataEncipherment
+extendedKeyUsage = critical, serverAuth, clientAuth
+#subjectAltName = @alt_names
+#subjectAltName       = critical,DNS:${ENV::SUBJECT_ALT_NAME},DNS:www.${ENV::SUBJECT_ALT_NAME},email:move
 
 [ v3_ca ]
-
-
-# Extensions for a typical CA
-
-
-# PKIX recommendation.
-
-subjectKeyIdentifier=hash
-
-authorityKeyIdentifier=keyid:always,issuer
-
-# This is what PKIX recommends but some broken software chokes on critical
-# extensions.
-#basicConstraints = critical,CA:true
-# So we do this instead.
-basicConstraints = CA:true
-
-# Key usage: this is typical for a CA certificate. However since it will
-# prevent it being used as an test self-signed certificate it is best
-# left out by default.
-# keyUsage = cRLSign, keyCertSign
+basicConstraints = critical,CA:true
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer:always
+keyUsage = critical,cRLSign,keyCertSign
+subjectAltName = critical,DNS:my_CA,email:move
 
 # Some might want this also
 # nsCertType = sslCA, emailCA
@@ -306,7 +182,7 @@ basicConstraints = CA:true
 # Include email address in subject alt name: another PKIX recommendation
 # subjectAltName=email:copy
 # Copy issuer details
-# issuerAltName=issuer:copy
+issuerAltName=issuer:copy
 
 # DER hex encoding of an extension: beware experts only!
 # obj=DER:02:03
@@ -319,8 +195,8 @@ basicConstraints = CA:true
 # CRL extensions.
 # Only issuerAltName and authorityKeyIdentifier make any sense in a CRL.
 
-# issuerAltName=issuer:copy
-authorityKeyIdentifier=keyid:always
+issuerAltName=issuer:copy
+authorityKeyIdentifier=keyid:always,issuer:always
 
 [ proxy_cert_ext ]
 # These extensions should be added when creating a proxy certificate
@@ -353,7 +229,7 @@ nsComment			= "OpenSSL Generated Certificate"
 
 # PKIX recommendations harmless if included in all certificates.
 subjectKeyIdentifier=hash
-authorityKeyIdentifier=keyid,issuer
+authorityKeyIdentifier=keyid,issuer:always
 
 # This stuff is for subjectAltName and issuerAltname.
 # Import the email address.

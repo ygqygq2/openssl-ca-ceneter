@@ -5,18 +5,18 @@ server_flag=$1
 # get pwd
 cd `dirname $0`
 real_path=`pwd`
-today=$(date +%F)
-key_dir=${real_path}/private
-cert_dir=${real_path}/certs
-conf_dir=${real_path}/conf
+TODAY=$(date +%F)
+KEY_DIR=${real_path}/private
+CERT_DIR=${real_path}/certs
+CONF_DIR=${real_path}/conf
 
-[ ! -d ${key_dir} ] && mkdir -p ${key_dir}/
-[ ! -d ${cert_dir} ] && mkdir -p ${cert_dir}/
-[ ! -d ${conf_dir} ] && mkdir -p ${conf_dir}/
+[ ! -d ${KEY_DIR} ] && mkdir -p ${KEY_DIR}/
+[ ! -d ${CERT_DIR} ] && mkdir -p ${CERT_DIR}/
+[ ! -d ${CONF_DIR} ] && mkdir -p ${CONF_DIR}/
 
-openssl ca -in ${cert_dir}/${server_flag}.csr -cert ${cert_dir}/my_CA.crt -keyfile ${key_dir}/my_CA.key -out ${cert_dir}/${server_flag}.crt
+openssl ca -in ${CERT_DIR}/${server_flag}.csr -cert ${CERT_DIR}/my_CA.crt -keyfile ${KEY_DIR}/my_CA.key -out ${CERT_DIR}/${server_flag}.crt
 
-/bin/cp ${cert_dir}/${server_flag}.csr ${cert_dir}/${server_flag}_${today}.csr
-/bin/cp ${cert_dir}/${server_flag}.crt ${cert_dir}/${server_flag}_${today}.crt
+/bin/cp ${CERT_DIR}/${server_flag}.csr ${CERT_DIR}/${server_flag}_${TODAY}.csr
+/bin/cp ${CERT_DIR}/${server_flag}.crt ${CERT_DIR}/${server_flag}_${TODAY}.crt
 
 

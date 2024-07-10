@@ -1,22 +1,20 @@
 ####################################
 [ req ]
 default_keyfile = /etc/pki/tls/private/my_CA.key
-default_md = sha1
+default_md = sha256
+string_mask = utf8only
+utf8 = yes
 prompt = no
 distinguished_name = ca_distinguished_name
-x509_extensions = ca_extensions
+default_days = 7300
+req_extensions = v3_req
 
 [ ca_distinguished_name ]
 countryName = CN
 stateOrProvinceName = Guangdong
-localityName = Guangzhou
-
+localityName = ZhuHai
 organizationName = myself
 organizationalUnitName = my
 commonName = my_CA
 emailAddress = ca_admin@my.cn
-
-[ ca_extensions ]
-basicConstraints = CA:true
 ########################################
-
