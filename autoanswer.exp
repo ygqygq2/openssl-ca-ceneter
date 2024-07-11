@@ -19,35 +19,43 @@ if { $argc == 0 } {
     exit
 }
 
-## 定义变量
+# 定义变量
 set domain_name [lindex $argv 0]
 set timeout 30
 
 # 调用 base.sh 中的函数生成 v3.ext
-exec bash -c "source ${real_path}/base.sh; create_v3_req $domain_name"
+set status 0
+catch {exec bash -c "source ${real_path}/base.sh; create_v3_req $domain_name"} result status
 
+# 检查执行状态
+if {$status != 0} {
+    send_user "Error: Failed to execute base.sh with status $status\n"
+    exit $status
+}
+
+# 使用 spawn 命令启动 openssl
+set spawn_id ""
 spawn openssl ca -config ${real_path}/openssl.cnf -utf8 -extfile v3.ext \
     -in ${csr_dir}/${domain_name}.csr -cert ${crt_dir}/${CA_NAME}.crt -keyfile ${key_dir}/${CA_NAME}.key -out ${crt_dir}/${domain_name}.crt
 
+set expect_status 0
 expect {
-    "y/n]"
-    {
+    "y/n]" {
         send "y\r"
         exp_continue
     }
-    # "Updated" {
-    #     send "ret=0\r"
-    #     send "echo \$ret\r"
-    # }
-    # "need*request*" {
-    #     send "ret=1\r"
-    #     send "echo \"exit \$ret\r\""
-    # }
+    eof {
+        catch wait result
+        set expect_status [lindex $result 3]
+    }
 }
 
-#expect	"y/n]"
-#send "y\r"
-#expect  "y/n]"
-#send "y\r"
-#expect eof
-#exit
+# 检查 expect 命令的执行状态
+if {$expect_status != 0} {
+    send_user "Error: openssl command failed with status $expect_status\n"
+    exit $expect_status
+} else {
+    send_user "Success: openssl command executed successfully\n"
+}
+
+# 根据需要添加更多的逻辑处理
