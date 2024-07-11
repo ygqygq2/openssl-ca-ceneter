@@ -7,7 +7,7 @@ puts "脚本所在目录: $script_path"
 # 切换到脚本所在目录
 cd $script_path
 set real_path [exec pwd]
-set csr_dir "$real_path/csr"
+set csr_dir "$real_path/csrs"
 set key_dir "$real_path/private"
 set crt_dir "$real_path/certs"
 set CA_NAME "my_CA"
