@@ -24,6 +24,9 @@ done
 /usr/bin/expect ${real_path}/autoanswer.exp ${domain_name}
 if [ $? -eq 0 ] ;then
     echo -e "\e[1;32mCA签证成功。\e[0m" && echo -e "$(date +%F-%T)\tca issue certification to ${domain_name} successed\n" >> ${ca_log}
+    openssl x509 -in ${CERT_DIR}/"${domain_name}".crt -outform PEM -out ${CERT_DIR}/"${domain_name}".pem
+    cat ${CERT_DIR}/"${CA_NAME}".crt >> ${CERT_DIR}/"${domain_name}"-fullchain.crt
+
     rsync -avz ${CSR_DIR}/${domain_name}.csr ${CSR_DIR}/${domain_name}-${TODAY}.csr
     rsync -avz ${CERT_DIR}/${domain_name}.crt ${CERT_DIR}/${domain_name}-${TODAY}.crt
 else
