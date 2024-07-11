@@ -37,6 +37,11 @@ chmod 0600 ${KEY_DIR}/${CA_NAME}.key
 [ ! -f ${CERT_DIR}/${CA_NAME}.srl ] && echo 01 > ${CERT_DIR}/${CA_NAME}.srl
 
 # backup
+<<<<<<< HEAD
 rsync -avz ${KEY_DIR}/${CA_NAME}.key ${KEY_DIR}/${TODAY}_${CA_NAME}.key
 rsync -avz ${CERT_DIR}/${CA_NAME}.crt ${CERT_DIR}/${TODAY}_${CA_NAME}.crt
+=======
+rsync -avz ${KEY_DIR}/${CA_NAME}.key ${KEY_DIR}/${TODAY}-${CA_NAME}.key
+rsync -avz ${CERT_DIR}/${CA_NAME}.crt ${CERT_DIR}/${TODAY}-${CA_NAME}.crt
+>>>>>>> 3116c479d8483f1c0ebbe4ca6dd641609ccf3ef0
 

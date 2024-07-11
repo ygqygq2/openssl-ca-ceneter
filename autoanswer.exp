@@ -10,6 +10,7 @@ if { $argc != 2 } {
 ## 定义变量
 set agent [lindex $argv 0]
 set server_id [lindex $argv 0]
+set server_id [lindex $argv 1]
 set server_flag ${agent}_${server_id}
 set timeout 30
 
