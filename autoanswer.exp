@@ -1,31 +1,53 @@
 #!/usr/bin/expect -f
 
+# 获取脚本所在目录
+set script_path [file dirname [info script]]
+puts "脚本所在目录: $script_path"
+
+# 切换到脚本所在目录
+cd $script_path
+set real_path [exec pwd]
+set csr_dir "$real_path/csr"
+set key_dir "$real_path/private"
+set crt_dir "$real_path/certs"
+set CA_NAME "my_CA"
+
 #检查传入参数
-if { $argc != 2 } {  
-    send_user "Usage:\texpect autoanswer.exp <domain_name>\n"  
-    send_user "Example:\texpect autoanswer.exp ygqygq2.com\n"  
-    exit  
-} 
+if { $argc == 0 } {
+    send_user "Usage:\texpect autoanswer.exp <domain_name>\n"
+    send_user "Example:\texpect autoanswer.exp ygqygq2.com\n"
+    exit
+}
 
 ## 定义变量
-set agent [lindex $argv 0]
-set server_id [lindex $argv 0]
-set server_id [lindex $argv 1]
-set server_flag ${agent}_${server_id}
+set domain_name [lindex $argv 0]
 set timeout 30
 
-spawn openssl ca -in /etc/pki/tls/csrs/${agent}/${server_flag}.csr -cert /etc/pki/tls/certs/my_CA.crt -keyfile /etc/pki/tls/private/my_CA.key -out /etc/pki/tls/certs/${agent}/${server_flag}.crt 
+# 调用 base.sh 中的函数生成 v3.ext
+exec bash -c "source ${real_path}/base.sh; create_v3_req $domain_name"
+
+spawn openssl ca -config ${real_path}/openssl.cnf -utf8 -extfile v3.ext \
+    -in ${csr_dir}/${domain_name}.csr -cert ${crt_dir}/${CA_NAME}.crt -keyfile ${key_dir}/${CA_NAME}.key -out ${crt_dir}/${domain_name}.crt
 
 expect {
     "y/n]"
-    { send "y\r";exp_continue }
-#    "Updated" { send "ret=0\r" ; send "echo \$ret\r" }
-#    "need*request*" { send "ret=1\r" ; send "echo \"exit \$ret\r\"" }
+    {
+        send "y\r"
+        exp_continue
+    }
+    # "Updated" {
+    #     send "ret=0\r"
+    #     send "echo \$ret\r"
+    # }
+    # "need*request*" {
+    #     send "ret=1\r"
+    #     send "echo \"exit \$ret\r\""
+    # }
 }
 
-#expect	"y/n]"  
-#send "y\r" 
-#expect  "y/n]" 
-#send "y\r" 
+#expect	"y/n]"
+#send "y\r"
+#expect  "y/n]"
+#send "y\r"
 #expect eof
 #exit

@@ -29,13 +29,8 @@ openssl ca -config ${real_path}/openssl.cnf -utf8 -extfile v3.ext \
   -in ${CSR_DIR}/"${cert_name}".csr -cert ${CERT_DIR}/"${CA_NAME}".crt -keyfile ${KEY_DIR}/"${CA_NAME}".key -out ${CERT_DIR}/"${cert_name}".crt
 
 # 添加 ca 到 server crt，形成证书链
-<<<<<<< HEAD
 openssl x509 -in ${CERT_DIR}/"${cert_name}".crt -outform PEM -out ${CERT_DIR}/"${cert_name}".pem
 cat ${CERT_DIR}/"${CA_NAME}".crt >> ${CERT_DIR}/"${cert_name}"-fullchain.crt
-=======
-#openssl x509 -in certs/harbor.linuxba.com.crt -outform PEM -out certs/harbor.linuxba.com.pem
-cat ${CERT_DIR}/"${CA_NAME}".crt >> ${CERT_DIR}/"${cert_name}".crt
->>>>>>> 3116c479d8483f1c0ebbe4ca6dd641609ccf3ef0
 
 chmod 0600 ${KEY_DIR}/"${CA_NAME}".key
 

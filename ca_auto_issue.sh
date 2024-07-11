@@ -6,6 +6,13 @@ real_path=$(pwd)
 
 . $real_path/base.sh
 
+if [ $# -eq 0 ]; then
+    echo "Usage: sh $0 <domain>"
+    echo "Example: sh $0 domain1"
+    exit 1
+fi
+
+domain_name="$1"
 ca_log=${real_path}/ca_issue_certification.log
 
 check_autoanswer_pid=$(ps aux|grep "autoanswer"|grep -v "grep"|awk '{print $2}')

@@ -68,7 +68,7 @@ EOF
 function create_v3_email () {
     local email_name
     email=$1
- 
+
     cat > v3.ext <<EOF
 [ v3_email ]
 basicConstraints = critical,CA:FALSE
