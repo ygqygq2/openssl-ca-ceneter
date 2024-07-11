@@ -19,7 +19,9 @@ CONF_DIR=${real_path}/conf
 
 function create_subj_info() {
     local domain_name=()
-    local email_name="$CA_EMAIL" # 默认使用环境变量CA_EMAIL作为邮件名
+    local domain_str=""
+    local email_name=""
+    local email_str=""
 
     # 遍历所有参数
     for arg in "$@"; do
@@ -31,11 +33,15 @@ function create_subj_info() {
     done
 
     # 将域名数组转换为以"/CN="分隔的字符串
-    local domain_str=$(IFS=/CN=; echo "${domain_name[*]}")
+    domain_str=$(IFS=/CN=; echo "${domain_name[*]}")
     domain_str="/CN=$domain_str" # 添加前缀以符合SUBJ格式
 
+    if [ ! -z "${email_name}" ]; then
+        email_str="/emailAddress=${email_name}"
+    fi
+
     # 构造SUBJ字符串
-    SUBJ="/C=CN/ST=Guangdong/L=ZhuHai/O=my/OU=devops${domain_str}/emailAddress=${email_name}"
+    SUBJ="/C=CN/ST=Guangdong/L=ZhuHai/O=my${domain_str}${email_str}"
 }
 
 function create_v3_req () {

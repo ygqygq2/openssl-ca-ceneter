@@ -174,15 +174,15 @@ basicConstraints = critical,CA:true
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid:always,issuer:always
 keyUsage = critical,cRLSign,keyCertSign
-subjectAltName = critical,DNS:my_CA,email:move
+issuerAltName = issuer:copy
+subjectAltName = critical,DNS:empty,email:move
+
 
 # Some might want this also
 # nsCertType = sslCA, emailCA
 
 # Include email address in subject alt name: another PKIX recommendation
 # subjectAltName=email:copy
-# Copy issuer details
-issuerAltName=issuer:copy
 
 # DER hex encoding of an extension: beware experts only!
 # obj=DER:02:03
