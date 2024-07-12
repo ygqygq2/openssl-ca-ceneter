@@ -31,10 +31,12 @@ function create_subj_info() {
             domain_name+=("$arg") # 否则，认为是域名
         fi
     done
+    echo ${domain_name[@]}
 
-    # 将域名数组转换为以"/CN="分隔的字符串
-    domain_str=$(IFS=/CN=; echo "${domain_name[*]}")
-    domain_str="/CN=$domain_str" # 添加前缀以符合SUBJ格式
+    # 将域名数组转换为以"/CN="开头，每个域名前都有"/CN="的字符串
+    for domain in "${domain_name[@]}"; do
+        domain_str+="/CN=$domain"
+    done
 
     if [ ! -z "${email_name}" ]; then
         email_str="/emailAddress=${email_name}"
