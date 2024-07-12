@@ -30,7 +30,7 @@ openssl ca -config ${real_path}/openssl.cnf -utf8 -extfile v3.ext \
 
 # 添加 ca 到 server crt，形成证书链
 openssl x509 -in ${CERT_DIR}/"${cert_name}".crt -outform PEM -out ${CERT_DIR}/"${cert_name}".pem
-cat ${CERT_DIR}/"${CA_NAME}".crt >> ${CERT_DIR}/"${cert_name}"-fullchain.crt
+cat ${CERT_DIR}/"${cert_name}".pem ${CERT_DIR}/"${CA_NAME}".crt >> ${CERT_DIR}/"${cert_name}"-fullchain.crt
 
 chmod 0600 ${KEY_DIR}/"${CA_NAME}".key
 
